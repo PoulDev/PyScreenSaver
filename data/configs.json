@@ -1,0 +1,7 @@
+{
+    "shortcut": "CTRL ALT s",
+    "selector": {
+        "fill_rgba": [0, 0, 0],
+        "outline_rgb": [255, 255, 255]
+    }
+}

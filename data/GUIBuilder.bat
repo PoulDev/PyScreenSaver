@@ -1,0 +1,3 @@
+@echo off
+echo Building UI\selector.ui ...
+pyside6-uic ui\selector.ui > selector.py
