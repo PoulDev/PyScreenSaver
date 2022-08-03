@@ -1,0 +1,4 @@
+PySide6
+mss
+pywin32
+keyboard
