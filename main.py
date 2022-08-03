@@ -20,7 +20,7 @@ OUTLINE = tuple(configs['selector']['outline_rgb'])
 FILL = tuple(configs['selector']['fill_rgba'] + [50])
 SHORTCUT = tuple([key.lower() for key in configs['shortcut'].split(' ')])
 
-def send_to_clipboard(clip_type, data):
+def clipboardCopy(clip_type, data):
     win32clipboard.OpenClipboard()
     win32clipboard.EmptyClipboard()
     win32clipboard.SetClipboardData(clip_type, data)
@@ -46,13 +46,6 @@ class SelectorWindow(QMainWindow):
         self.ui.image.setPixmap(QPixmap.fromImage(ImageQt(self.originalImg)))
 
         self.show()
-
-    def _close(self, status = 0):
-        self.close()
-        try:
-            self.callback(status)
-        except:
-            self.callback()
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
@@ -93,7 +86,7 @@ class SelectorWindow(QMainWindow):
             data = output.getvalue()[14:]
             output.close()
 
-            send_to_clipboard(win32clipboard.CF_DIB, data)
+            clipboardCopy(win32clipboard.CF_DIB, data)
             self.close()
         self.startpos = None
         super().mouseReleaseEvent(event)
