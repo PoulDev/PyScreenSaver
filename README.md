@@ -15,4 +15,4 @@
 > Open configs.json and edit the value "shortcut"
 
 > ### Edit the selector colors:
-> Just open a color picker ( you can use the [Google Color Picker](https://www.google.com/search?q=google+color+picker)) and pick a color, then set the chosen color (RGB VALUE) to the value "outline_rgb" / "fill_rgb" 
+> Just open a color picker ( you can use the [Google Color Picker](https://www.google.com/search?q=google+color+picker)) and pick a color, then set the chosen color (RGB) to the value "outline_rgb" / "fill_rgb" 
