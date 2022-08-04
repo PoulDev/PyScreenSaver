@@ -6,6 +6,7 @@
 
 ## Sections:
 - [Some Screenshots](https://github.com/PoulDev/PyScreenSaver#some-screenshots)
+- [Basic Usage](https://github.com/PoulDev/PyScreenSaver#basic-usage)
 - [Run in background](https://github.com/PoulDev/PyScreenSaver#run-in-background)
 - [Server Configuration](https://github.com/PoulDev/PyScreenSaver#server-configuration)
 - [Client Configuration](https://github.com/PoulDev/PyScreenSaver#client-configuration)
@@ -17,6 +18,14 @@
 > ![Discord](readme_photos/discord.png)
 > #### Image Webpage
 > ![Webpage](readme_photos/webpage.png)
+
+> ## Basic Usage
+> First of all you need to install the requirements, to do that just open your terminal in the project folder and type
+> ```
+> pip install -r requirements.txt
+> ```
+> Than run main.py and use the shortcut `ctrl + alt + s` to grab a screenshot
+> The selected area of the screen will be copied in your clipboard
 
 > ## Run in background:
 >   ```
