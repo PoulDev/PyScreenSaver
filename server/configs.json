@@ -1,0 +1,17 @@
+{
+    "owner": {
+        "username": "Your Username",
+        "redirect_link": "https://yourwebsite.com",
+        "anonymous": false
+    },
+    "auth": {
+        "password": "Your Super Secret Password"
+    },
+    "embed": {
+        "color": "#7f5af0"
+    },
+    "storage": {
+        "max_saved_images": 20
+    },
+    "port": 8482
+}

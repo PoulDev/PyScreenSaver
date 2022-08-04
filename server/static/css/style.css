@@ -1,0 +1,26 @@
+body {
+    background-color: #16161a;
+    color: #fffffe;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 35vh
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0px
+}
+
+h1, a {
+    color: #7f5af0;
+    font-style: italic
+}
+
+img {
+    box-shadow: 0px 0px 8px 4px #7f5af0;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.secondary {
+    color: #72757e
+}

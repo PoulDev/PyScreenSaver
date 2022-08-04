@@ -1,0 +1,13 @@
+body {
+    background-color: #16161a;
+    color: #fffffe;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 5vh
+}
+
+img {
+    box-shadow: 0px 0px 8px 4px #7f5af0;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}

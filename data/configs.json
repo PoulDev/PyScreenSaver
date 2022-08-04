@@ -3,5 +3,11 @@
     "selector": {
         "fill_rgba": [0, 0, 0],
         "outline_rgb": [255, 255, 255]
+    },
+    "server": {
+        "use_server": false,
+        "server_ip": "127.0.0.1",
+        "server_port": 8482,
+        "server_password": "Your Super Secret Password"
     }
 }
