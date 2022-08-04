@@ -109,7 +109,7 @@ class SelectorWindow(QMainWindow):
                 cropped_im.save('screenshot.png')
                 res = uploadToServer()
                 if not 'uid' in res:
-                    ctypes.windll.user32.MessageBoxA(0, res['error'], "Upload Error", 1)
+                    ctypes.windll.user32.MessageBoxW(0, res['error'], "Upload Error", 1)
                 else:
                     pyperclip.copy(f'http://{configs["server"]["server_ip"]}:{configs["server"]["server_port"]}/{res["uid"]}')
                 try:
