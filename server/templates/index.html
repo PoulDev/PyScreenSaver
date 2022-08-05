@@ -12,12 +12,12 @@
         <h1>PyScreenSaver - Cloud</h1>
         {% block owner %}
             {% if not anonymous %}
-                <h3>This server is owned by <a href="{{ redirect_link }}">{{ owner }}</a></h3>
+                <h3>Server is owned by <a href="{{ redirect_link }}">{{ owner }}</a></h3>
+                <h5 class="secondary">This is a private server.</h3>
             {% else %}
                 <h3>This is an anonymous server.</h3>
             {% endif %}
         {% endblock owner %}
-        <h5 class="secondary">This is a private server.</h3>
     </center>
 </body>
 </html>
