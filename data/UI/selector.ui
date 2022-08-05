@@ -52,6 +52,9 @@ color: white</string>
           <bold>true</bold>
          </font>
         </property>
+        <property name="cursor">
+         <cursorShape>CrossCursor</cursorShape>
+        </property>
         <property name="lineWidth">
          <number>2</number>
         </property>

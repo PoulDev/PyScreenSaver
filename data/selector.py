@@ -42,6 +42,7 @@ class Ui_MainWindow(object):
         font.setPointSize(20)
         font.setBold(True)
         self.image.setFont(font)
+        self.image.setCursor(QCursor(Qt.CrossCursor))
         self.image.setLineWidth(2)
         self.image.setAlignment(Qt.AlignCenter)
 
