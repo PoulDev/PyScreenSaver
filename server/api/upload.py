@@ -12,9 +12,9 @@ def upload():
     if not 'authentication' in request.headers:
         return {'error': 'No Authentication'}, 400
     
-    hash_auth_password = hashlib.sha256(configs['auth']['password']).hexdigest()
+    hash_auth_password = hashlib.sha256(configs['auth']['password'].encode()).hexdigest()
 
-    if hash_auth_password == request.headers['authentication']  :
+    if hash_auth_password != request.headers['authentication']:
         return {'error': 'Invalid Authentication'}, 400
     
     if not 'file' in request.files:
