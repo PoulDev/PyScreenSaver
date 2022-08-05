@@ -39,7 +39,7 @@ def imageEmbed(imgID):
     pilImg = Image.open(f'images/{imgID}.png')
     return render_template(
         'image.html',
-        owner = configs['owner']['username'],
+        owner = configs['owner']['username'] if not configs['owner']['anonymous'] else 'by an anonymous user',
         imgID = imgID,
         color = configs['embed']['color'],
         width = pilImg.size[0],
