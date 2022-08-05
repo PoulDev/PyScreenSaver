@@ -10,9 +10,13 @@ allowedFileTypes = ('png', 'jpg')
 @uploadApi.route('/upload', methods=['POST', 'GET'])
 def upload():
     if not 'authentication' in request.headers:
-        return {'error': 'No Authentication'}, 400
+        return {'error': 'No Authentication header'}, 400
     
-    if request.headers['authentication'] != configs['auth']['password']:
+    else: pass
+    
+    hash_auth_password = hashlib.sha256(configs['auth']['password']).hexdigest()
+
+    if hash_auth_password == request.headers['authentication']  :
         return {'error': 'Invalid Authentication'}, 400
     
     if not 'file' in request.files:

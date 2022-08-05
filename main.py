@@ -1,4 +1,5 @@
 import ctypes
+import hashlib
 from PySide6.QtCore import *
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import *
@@ -42,9 +43,7 @@ def uploadToServer():
         files = {
             'file': open('screenshot.png', 'rb')
         },
-        headers = {
-            'authentication': configs['server']['server_password']
-        }
+        headers = {"authentication" : hashlib.sha256(configs['server']['server_password']).hexdigest()}
     ).json()
 
 class SelectorWindow(QMainWindow):
