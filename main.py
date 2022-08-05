@@ -43,7 +43,7 @@ def uploadToServer():
         files = {
             'file': open('screenshot.png', 'rb')
         },
-        headers = {"authentication" : hashlib.sha256(configs['server']['server_password']).hexdigest()}
+        headers = {"authentication" : hashlib.sha256(configs['server']['server_password'].encode()).hexdigest()}
     ).json()
 
 class SelectorWindow(QMainWindow):
@@ -62,12 +62,10 @@ class SelectorWindow(QMainWindow):
 
         self.show()
 
-    def _close(self, status = 0):
-        self.close()
-        try:
-            self.callback(status)
-        except:
-            self.callback()
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Escape:
+            self.close()
+        return super().keyPressEvent(event)
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
@@ -108,7 +106,7 @@ class SelectorWindow(QMainWindow):
                 cropped_im.save('screenshot.png')
                 res = uploadToServer()
                 if not 'uid' in res:
-                    ctypes.windll.user32.MessageBoxW(0, res['error'], "Upload Error", 1)
+                    ctypes.windll.user32.MessageBoxW(0, res['error'], "Upload Error", 0)
                 else:
                     pyperclip.copy(f'http://{configs["server"]["server_ip"]}:{configs["server"]["server_port"]}/{res["uid"]}')
                 try:
