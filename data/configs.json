@@ -5,9 +5,17 @@
         "outline_rgb": [255, 255, 255]
     },
     "server": {
-        "use_server": false,
+        "enabled": false,
         "server_ip": "127.0.0.1",
         "server_port": 8482,
         "server_password": "Your Super Secret Password"
+    },
+    "ftp_server": {
+        "enabled": false,
+        "address": "",
+        "username": "",
+        "password": "",
+        "directory": "",
+        "url": "http://127.0.0.1/"
     }
 }

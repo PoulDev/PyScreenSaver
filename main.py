@@ -1,5 +1,6 @@
 import ctypes
 import hashlib
+from typing import Any, Callable, Union
 from PySide6.QtCore import *
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import *
@@ -12,13 +13,20 @@ import io
 import sys
 import mss
 import json
-import time
+import win32con
+import win32gui
+import ctypes
 import keyboard
 import pyperclip
 import requests
+import random
+import string
 import win32clipboard
+from ftplib import FTP
+
 
 from data.selector import Ui_MainWindow
+
 
 configs = json.loads(open('data\\configs.json', 'r').read())
 
@@ -45,6 +53,73 @@ def uploadToServer():
         },
         headers = {"authentication" : hashlib.sha256(configs['server']['server_password'].encode()).hexdigest()}
     ).json()
+
+class UploadMethod:
+    INSTANCE: Any = None
+
+    def __init__(self):
+        if UploadMethod.INSTANCE:
+            raise RuntimeError('UploadMethod is a singletone Object.')
+        UploadMethod.INSTANCE = self
+        self.save_image = self._find_upload_method()
+
+    def animate_cursor(self):
+        cursor = win32gui.LoadImage(0, 32512, win32con.IMAGE_CURSOR, 
+            0, 0, win32con.LR_SHARED)
+        self.system_cursor = ctypes.windll.user32.CopyImage(cursor, win32con.IMAGE_CURSOR, 
+            0, 0, win32con.LR_COPYFROMRESOURCE)
+
+        cursor = win32gui.LoadImage(0, "working.ani", win32con.IMAGE_CURSOR, 
+                0, 0, win32con.LR_LOADFROMFILE);
+        ctypes.windll.user32.SetSystemCursor(cursor, 32512)
+        ctypes.windll.user32.DestroyCursor(cursor);
+
+
+    def restore_cursor(self):
+        ctypes.windll.user32.SetSystemCursor(self.system_cursor, 32512)
+        ctypes.windll.user32.DestroyCursor(self.system_cursor);
+
+    def _find_upload_method(self) -> Callable:
+        for upload_method, method_function in {'ftp_server': self._ftp_upload, 'server': self._server_upload}.items():
+            if configs[upload_method]['enabled']:
+                return method_function
+        return self._clipboard_save
+
+    def _ftp_upload(self, image: Image.Image) -> None:
+        filename = 'screenshot_' + ''.join(random.choices(string.ascii_letters, k=15)) + '.png'
+        image.save(filename)
+        with FTP(
+                configs['ftp_server']['address'],
+                configs['ftp_server']['username'],
+                configs['ftp_server']['password']) as ftp, open(filename, 'rb') as file:
+            ftp.cwd(configs['ftp_server']['directory'])
+            ftp.storbinary(f'STOR {filename}', file)
+
+        pyperclip.copy(f'{configs["ftp_server"]["url"]}/{filename}')
+        try:
+            os.remove(filename)
+        except: pass
+
+    def _server_upload(self, image: Image.Image) -> None:
+        image.save('screenshot.png')
+        res = uploadToServer()
+        if not 'uid' in res:
+            ctypes.windll.user32.MessageBoxW(0, res['error'], "Upload Error", 0)
+        else:
+            pyperclip.copy(f'http://{configs["server"]["server_ip"]}:{configs["server"]["server_port"]}/{res["uid"]}')
+        try:
+            os.remove('screenshot.png')
+        except: pass
+
+    def _clipboard_save(self, image: Image.Image) -> None:
+        output = io.BytesIO()
+        image.convert("RGB").save(output, "BMP")
+        data = output.getvalue()[14:]
+        output.close()
+        send_to_clipboard(win32clipboard.CF_DIB, data)
+
+
+UploadMethod()
 
 class SelectorWindow(QMainWindow):
     def __init__(self):
@@ -100,24 +175,10 @@ class SelectorWindow(QMainWindow):
                 print(e)
                 return self.ui.image.setPixmap(QPixmap.fromImage(ImageQt(self.originalImg)))
 
-            # Copy screenshot to clipboard
             self.close()
-            if configs['server']['use_server']:
-                cropped_im.save('screenshot.png')
-                res = uploadToServer()
-                if not 'uid' in res:
-                    ctypes.windll.user32.MessageBoxW(0, res['error'], "Upload Error", 0)
-                else:
-                    pyperclip.copy(f'http://{configs["server"]["server_ip"]}:{configs["server"]["server_port"]}/{res["uid"]}')
-                try:
-                    os.remove('screenshot.png')
-                except: pass
-            else:
-                output = io.BytesIO()
-                cropped_im.convert("RGB").save(output, "BMP")
-                data = output.getvalue()[14:]
-                output.close()
-                send_to_clipboard(win32clipboard.CF_DIB, data)
+            UploadMethod.INSTANCE.animate_cursor()
+            UploadMethod.INSTANCE.save_image(cropped_im)
+            UploadMethod.INSTANCE.restore_cursor()
 
         self.startpos = None
         super().mouseReleaseEvent(event)

@@ -40,6 +40,6 @@
 
 > ## Client Configuration
 > At this point you will have to set the client to use the personal server, after loading the server folder with the [configuration executed previously](https://github.com/PoulDev/PyScreenSaver#server-configuration) we open the configs.json file in the "data" folder and modify some values.
-> - The first value to set is "use_server", which will have to be set to true
+> - The first value to set is "enabled", which will have to be set to true
 > - The second value is "server_password", and you have to enter the chosen password in the server configuration
 > - The last important value to change is "server_ip", where you have to put the ip of your server.
