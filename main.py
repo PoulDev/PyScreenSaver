@@ -122,6 +122,7 @@ class SelectorWindow(QMainWindow):
         self.startpos = None
         super().mouseReleaseEvent(event)
 
+os.environ["QT_ENABLE_HIGHDPI_SCALING"] = "0"
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
